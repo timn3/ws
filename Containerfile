@@ -6,7 +6,7 @@ FROM scratch AS ctx
 COPY /scripts /scripts
 COPY /flatpaks /flatpaks
 COPY /system_files /system_files
-COPY /dotfiles /dotfiles
+COPY /container_files /container_files
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
@@ -21,6 +21,15 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/scripts/build_base.sh && \
     ostree container commit
+
+# Stage 2: Container setup
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/build_containers.sh && \
+    ostree container commit
+
 
 ### LINTING
 ## Verify final image and contents are correct.
