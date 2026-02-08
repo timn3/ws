@@ -1,8 +1,9 @@
 #!/bin/bash
 set -ouex pipefail
 
-rsync -rvK /ctx/system_files/ /
+dnf5 install -y --setopt=install_weak_deps=0 rsync && dnf clean all
 
+rsync -rvK /ctx/system_files/ /
 
 ### Install packages
 # dnf5 install -y --setopt=install_weak_deps=0 cloud-init  && dnf clean all
