@@ -8,6 +8,7 @@ ContainerName=gitea-runner
 Exec=act_runner daemon --config /config.yaml
 Volume=/var/gitea-runner-data/:/data:Z
 Volume=/var/gitea-runner-config/config.yaml:/config.yaml:Z
+Volume=/run/podman/podman.sock:/run/podman/podman.sock
 
 [Service]
 Restart=always
