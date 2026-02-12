@@ -19,6 +19,9 @@ fi
 netbird service install || true
 netbird service start || true
 
+## required for gitea runner
+systemctl --user enable --now podman.socket
+
 mkdir -p "$(dirname "$HASH_FILE")"
 touch "$HASH_FILE"
 echo "$NEW_HASH" > "$HASH_FILE"

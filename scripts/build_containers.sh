@@ -9,3 +9,10 @@ cat > /usr/lib/tmpfiles.d/gitea.conf << 'EOF'
 d /var/gitea-data   0755 1000 1000 -
 d /var/gitea-config 0755 1000 1000 -
 EOF
+
+## Install Gitea Runner
+cat > /usr/lib/tmpfiles.d/gitea-runner.conf << 'EOF'
+# Create Gitea directories at runtime
+d /var/gitea-runner-data   0755 1000 1000 -
+d /var/gitea-runner-config 0755 1000 1000 -
+EOF
