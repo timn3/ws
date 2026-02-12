@@ -9,11 +9,11 @@ PublishPort=2222:2222
 Memory=512m
 Volume=/var/gitea-data/:/var/lib/gitea:Z
 Volume=/var/gitea-config/:/etc/gitea:Z
-Volume=/etc/timezone:/etc/timezone:ro:Z
-Volume=/etc/localtime:/etc/localtime:ro:Z
+Volume=/etc/localtime:/etc/localtime:Z
 
 [Service]
 Restart=always
+RestartSec=5s
 
 [Install]
 # Start by default on boot
