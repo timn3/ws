@@ -1,0 +1,18 @@
+[Unit]
+Description=Gitea Server
+After=network-online.target
+
+[Container]
+Image=docker.io/gitea/act_runner:nightly
+ContainerName=gitea-runner
+Exec=act_runner daemon --config /config.yaml
+Volume=/var/gitea-runner-data/:/data:Z
+Volume=/var/gitea-runner-config/config.yaml:/config.yaml:Z
+
+[Service]
+Restart=always
+RestartSec=5s
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target
