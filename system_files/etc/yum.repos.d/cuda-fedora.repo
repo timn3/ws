@@ -1,0 +1,7 @@
+[cuda-fedora-x86_64]
+name=cuda-fedora-x86_64
+baseurl=https://developer.download.nvidia.com/compute/cuda/repos/fedora$releasever/x86_64
+enabled=0
+#exclude=nvidia-driver,nvidia-modprobe,nvidia-persistenced,nvidia-settings,nvidia-libXNVCtrl,nvidia-xconfig
+gpgcheck=1
+gpgkey=https://developer.download.nvidia.com/compute/cuda/repos/fedora41/x86_64/D42D0685.pub
