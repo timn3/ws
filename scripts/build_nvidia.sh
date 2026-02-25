@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ouex pipefail
 
-dnf install --best --allowerasing --skip-unavailable -y akmod-nvidia bcache-tools btop bwm-ng gdb gcc-c++ guvcview gvfs kernel-devel kernel-headers libaacs libguestfs libinput-utils libva-utils lm_sensors nss-mdns nvidia-container-toolkit nvidia-vaapi-driver openrgb-udev-rules thermald xorg-x11-drv-nvidia 
+dnf install --best --allowerasing --skip-unavailable -y akmod-nvidia bcache-tools btop bwm-ng gdb gcc-c++ guvcview gvfs kernel-headers libaacs libguestfs libinput-utils libva-utils lm_sensors nss-mdns nvidia-container-toolkit nvidia-vaapi-driver openrgb-udev-rules thermald xorg-x11-drv-nvidia 
 
 ### AMD
 dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
