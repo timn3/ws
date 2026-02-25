@@ -14,3 +14,5 @@ systemctl enable lm_sensors sysstat tuned fstrim.timer podman-auto-update.timer 
 
 ### Install netbird
 sh /ctx/scripts/install_scripts/install-netbird.sh
+
+firewall-cmd --add-service=cockpit --permanent
