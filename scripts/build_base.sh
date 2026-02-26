@@ -16,15 +16,5 @@ systemctl enable lm_sensors sysstat tuned fstrim.timer podman-auto-update.timer 
 ### Install netbird
 sh /ctx/scripts/install_scripts/install-netbird.sh
 
-# firewall-cmd --add-service=cockpit --permanent
-
-dnf5 install -y https://zfsonlinux.org/fedora/zfs-release-3-0$(rpm -E "%{dist}").noarch.rpm
-dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
-    kernel-devel 
-
-dnf5 config-manager setopt zfs*.enabled=0
-dnf5 config-manager setopt zfs-latest.enabled=1
-
-dnf5 install -y zfs
-
-dnf5 clean all
+### Install zfs
+sh /ctx/scripts/install_scripts/install-zfs.sh
