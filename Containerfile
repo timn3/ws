@@ -21,20 +21,29 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/build_base.sh && \
     ostree container commit
 
-# Stage 2: Container setup
-RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
-    --mount=type=tmpfs,dst=/tmp \
-    /ctx/scripts/build_containers.sh && \
-    ostree container commit
-
-# Stage 3: Add nvidia drivers and CUDA support
+# Stage 2: Add nvidia drivers and CUDA support
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
     --mount=type=cache,dst=/var/log \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/scripts/build_nvidia.sh && \
+    ostree container commit
+
+# Stage 3: Install Software
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/build_programs.sh && \
+    ostree container commit
+
+
+# Stage 4: Container setup
+RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
+    --mount=type=cache,dst=/var/cache \
+    --mount=type=cache,dst=/var/log \
+    --mount=type=tmpfs,dst=/tmp \
+    /ctx/scripts/build_containers.sh && \
     ostree container commit
 
 
