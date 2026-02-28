@@ -1,17 +1,27 @@
-#!/bin/bash
-set -ouex pipefail
+# Fetch Nvidia RPMs
+skopeo copy --retry-times 3 docker://ghcr.io/ublue-os/akmods-nvidia-open:"${AKMODS_FLAVOR}"-"$(rpm -E %fedora)"-"${KERNEL}" dir:/tmp/akmods-rpms
+NVIDIA_TARGZ=$(jq -r '.layers[].digest' </tmp/akmods-rpms/manifest.json | cut -d : -f 2)
+tar -xvzf /tmp/akmods-rpms/"$NVIDIA_TARGZ" -C /tmp/
+mv /tmp/rpms/* /tmp/akmods-rpms/
 
-dnf install --best --allowerasing --skip-unavailable -y akmod-nvidia bcache-tools btop bwm-ng gdb gcc-c++ guvcview gvfs kernel-headers libaacs libguestfs libinput-utils libva-utils lm_sensors nss-mdns nvidia-container-toolkit nvidia-vaapi-driver openrgb-udev-rules thermald xorg-x11-drv-nvidia-cuda
+# Exclude the Golang Nvidia Container Toolkit in Fedora Repo
+# Exclude for non-beta.... doesn't appear to exist for F42 yet?
+if [[ "${UBLUE_IMAGE_TAG}" != "beta" ]]; then
+    dnf5 config-manager setopt excludepkgs=golang-github-nvidia-container-toolkit
+else
+    # Monkey patch right now...
+    if ! grep -q negativo17 <(rpm -qi mesa-dri-drivers); then
+        dnf5 -y swap --repo=updates-testing \
+            mesa-dri-drivers mesa-dri-drivers
+    fi
+fi
 
-### AMD
-dnf -y swap mesa-va-drivers mesa-va-drivers-freeworld
-dnf -y swap mesa-vdpau-drivers mesa-vdpau-drivers-freeworld
-
-dnf clean all 
-
-systemctl set-default graphical.target 
-
-rm -rf /var/run*
-
-# Build kmods
-sh /ctx/scripts/install_scripts/kmod.sh
+# Install Nvidia RPMs
+ghcurl "https://raw.githubusercontent.com/ublue-os/main/main/build_files/nvidia-install.sh" -o /tmp/nvidia-install.sh
+chmod +x /tmp/nvidia-install.sh
+IMAGE_NAME="${BASE_IMAGE_NAME}" RPMFUSION_MIRROR="" /tmp/nvidia-install.sh
+rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json
+ln -sf libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so
+tee /usr/lib/bootc/kargs.d/00-nvidia.toml <<EOF
+kargs = ["rd.driver.blacklist=nouveau", "modprobe.blacklist=nouveau", "nvidia-drm.modeset=1", "initcall_blacklist=simpledrm_platform_driver_init"]
+EOF
