@@ -37,7 +37,6 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     /ctx/scripts/build_programs.sh && \
     ostree container commit
 
-
 # Stage 4: Container setup
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
@@ -45,7 +44,6 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/scripts/build_containers.sh && \
     ostree container commit
-
 
 ### LINTING
 ## Verify final image and contents are correct.
