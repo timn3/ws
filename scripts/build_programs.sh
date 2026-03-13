@@ -54,6 +54,8 @@ systemctl enable lm_sensors sysstat tuned fstrim.timer podman-auto-update.timer 
 ### Install netbird
 sh /ctx/scripts/install_scripts/install-netbird.sh
 
+### Install ollama
+curl -fsSL https://ollama.com/install.sh | sh
 
 ### Build initramfs
 KERNEL_SUFFIX=""
