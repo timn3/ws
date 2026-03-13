@@ -1,27 +1,17 @@
-# Fetch Nvidia RPMs
-skopeo copy --retry-times 3 docker://ghcr.io/ublue-os/akmods-nvidia-open:"${AKMODS_FLAVOR}"-"$(rpm -E %fedora)"-"${KERNEL}" dir:/tmp/akmods-rpms
-NVIDIA_TARGZ=$(jq -r '.layers[].digest' </tmp/akmods-rpms/manifest.json | cut -d : -f 2)
-tar -xvzf /tmp/akmods-rpms/"$NVIDIA_TARGZ" -C /tmp/
-mv /tmp/rpms/* /tmp/akmods-rpms/
+dnf -y install gcc-c++ nvidia-driver dnf-plugins-core
 
-# Exclude the Golang Nvidia Container Toolkit in Fedora Repo
-# Exclude for non-beta.... doesn't appear to exist for F42 yet?
-if [[ "${UBLUE_IMAGE_TAG}" != "beta" ]]; then
-    dnf5 config-manager setopt excludepkgs=golang-github-nvidia-container-toolkit
-else
-    # Monkey patch right now...
-    if ! grep -q negativo17 <(rpm -qi mesa-dri-drivers); then
-        dnf5 -y swap --repo=updates-testing \
-            mesa-dri-drivers mesa-dri-drivers
-    fi
-fi
+dkms autoinstall -k $(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}') 
+dnf config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora43/x86_64/cuda-fedora43.repo
+dnf install -y nvidia-container-toolkit 
+dnf install -y cuda cuda-toolkit cuda-drivers
+dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm 
 
-# Install Nvidia RPMs
-ghcurl "https://raw.githubusercontent.com/ublue-os/main/main/build_files/nvidia-install.sh" -o /tmp/nvidia-install.sh
-chmod +x /tmp/nvidia-install.sh
-IMAGE_NAME="${BASE_IMAGE_NAME}" RPMFUSION_MIRROR="" /tmp/nvidia-install.sh
-rm -f /usr/share/vulkan/icd.d/nouveau_icd.*.json
-ln -sf libnvidia-ml.so.1 /usr/lib64/libnvidia-ml.so
+dnf install -y nvidia-vaapi-driver libva-nvidia-driver libva-utils
+
+akmods --force --kernels "$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-devel)" 
+
+dnf clean all
+
 tee /usr/lib/bootc/kargs.d/00-nvidia.toml <<EOF
 kargs = ["nvidia-drm.modeset=1 nouveau.modeset=0 rd.driver.blacklist=nouveau,nova-core modprobe.blacklist=nouveau,nova-core", "initcall_blacklist=simpledrm_platform_driver_init"]
 EOF
