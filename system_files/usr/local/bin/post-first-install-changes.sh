@@ -19,6 +19,9 @@ fi
 netbird service install || true
 netbird service start || true
 
+### start ollama
+systemctl enable ollama --now
+
 ## required for gitea runner
 systemctl --user enable --now podman.socket
 
