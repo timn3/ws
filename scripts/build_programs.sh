@@ -57,6 +57,9 @@ sh /ctx/scripts/install_scripts/install-netbird.sh
 ### Install ollama
 curl -fsSL https://ollama.com/install.sh | sh
 
+### Install steam
+dnf install -y --setopt=install_weak_deps=0 --skip-unavailable steam
+
 ### Build initramfs
 KERNEL_SUFFIX=""
 QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\d+)' | sed -E 's/kernel-(|'"$KERNEL_SUFFIX"'-)//')"
