@@ -32,7 +32,7 @@ dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
     sscg \
     sysstat \
     tuned \
-    wget \ 
+    wget \
     syncthing
 
 dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
