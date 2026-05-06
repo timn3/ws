@@ -15,6 +15,7 @@ dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
     cockpit-pcp \
     cockpit-machines \
     cockpit-selinux \
+    distrobox \ 
     dnf5-plugins \
     docker \
     docker-compose \
