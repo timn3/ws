@@ -1,4 +1,12 @@
-dnf -y install gcc-c++ nvidia-driver dnf-plugins-core
+#!/bin/bash
+set -ouex pipefail
+
+dnf -y install \
+    gcc-c++ \
+    nvidia-driver \
+    dnf-plugins-core \
+    dkms \
+    'dnf-command(config-manager)'
 
 dkms autoinstall -k $(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}') 
 dnf config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora43/x86_64/cuda-fedora43.repo
