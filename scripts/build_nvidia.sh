@@ -11,11 +11,17 @@ dnf5 -y install \
 
 dkms autoinstall -k $(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}') 
 dnf5 config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora43/x86_64/cuda-fedora43.repo
-dnf5 install -y nvidia-container-toolkit 
-dnf5 install -y cuda cuda-toolkit cuda-drivers
+dnf5 install -y --allowerasing \
+    cuda \
+    cuda-toolkit \
+    cuda-drivers \
+    nvidia-container-toolkit 
 dnf5 install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm 
 
-dnf5 install -y nvidia-vaapi-driver libva-nvidia-driver libva-utils
+dnf5 install -y \
+    nvidia-vaapi-driver \
+    libva-nvidia-driver \
+    libva-utils
 
 akmods --force --kernels "$(rpm -q --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' kernel-devel)" 
 
