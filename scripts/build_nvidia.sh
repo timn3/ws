@@ -1,6 +1,5 @@
 #!/bin/bash
 set -ouex pipefail
-dnf5 config-manager -h
 dnf5 install -y 'dnf5-command(config-manager)'
 
 dnf5 -y install \
