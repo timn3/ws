@@ -13,7 +13,7 @@ mkdir -p /etc/kernel/install.d \
 echo 'hostonly=no' > /etc/dracut.conf.d/99-hostonly.conf
 echo 'hardlink=no' > /etc/dracut.conf.d/99-no-hardlink.conf
 AKMODS_FLAVOR="coreos-stable"
-KERNEL="6.18.7-200.fc43.x86_64"
+KERNEL="7.0.9-105.fc43.x86_64"
 
 ## List versions of akmods available
 # skopeo list-tags docker://ghcr.io/ublue-os/akmods-zfs | sort | grep "coreos-stable-43-6.18"  | head 
