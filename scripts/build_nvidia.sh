@@ -11,7 +11,7 @@ dnf5 -y install \
 
 dkms autoinstall -k $(rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}') 
 dnf5 config-manager addrepo --from-repofile https://developer.download.nvidia.com/compute/cuda/repos/fedora43/x86_64/cuda-fedora43.repo
-dnf5 install -y --allowerasing \
+dnf5 install -y --allowerasing --skip-broken \
     cuda \
     cuda-toolkit \
     cuda-drivers \
