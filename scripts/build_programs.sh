@@ -62,6 +62,9 @@ sh /ctx/scripts/install_scripts/install-zellij.sh
 ### Install ollama
 curl -fsSL https://ollama.com/install.sh | sh
 
+### Install RELeARN Dependencies
+sh /ctx/scripts/install_scripts/install-relearn-deps.sh
+
 ### Build initramfs
 KERNEL_SUFFIX=""
 QUALIFIED_KERNEL="$(rpm -qa | grep -P 'kernel-(|'"$KERNEL_SUFFIX"'-)(\d+\.\d+\.\d+)' | sed -E 's/kernel-(|'"$KERNEL_SUFFIX"'-)//')"
