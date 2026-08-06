@@ -16,6 +16,8 @@ dnf5 install -y \
  openmpi \
  openmpi-devel \
  environment-modules \
- highfive-devel
+ highfive-devel \
+ hdf5-openmpi-devel \
+ hdf5-mpich-devel 
 
 echo ">>> RELeARN dependencies installation completed."
