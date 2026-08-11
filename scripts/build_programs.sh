@@ -24,6 +24,7 @@ dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
     git \
     lm_sensors \
     nfs-utils \
+    node \
     nss-mdns \
     pcp \
     pcp-selinux \
@@ -43,11 +44,8 @@ dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
     gcc-c++ \
     guvcview \
     gvfs \
-    nvidia-container-toolkit \
-    nvidia-vaapi-driver \
     openrgb-udev-rules \
-    thermald \
-    xorg-x11-drv-nvidia-cuda
+    thermald
 
 dnf5 clean all
 

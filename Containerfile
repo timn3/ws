@@ -23,8 +23,8 @@ RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
 
 # Stage 2: Add nvidia drivers and CUDA support
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
-    --mount=type=cache,dst=/var/cache \
-    --mount=type=cache,dst=/var/log \
+    --mount=type=cache,dst=/var/cache,sharing=locked \
+    --mount=type=cache,dst=/var/log,sharing=locked \
     --mount=type=tmpfs,dst=/tmp \
     /ctx/scripts/build_nvidia.sh && \
     ostree container commit
