@@ -7,6 +7,7 @@ rsync -rvK /ctx/system_files/ /
 
 ### Install packages
 dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
+    buildah \
     btop \
     cockpit \
     cockpit-podman \
