@@ -1,5 +1,5 @@
 ARG FEDORA_MAJOR_VERSION="43"
-ARG SOURCE_IMAGE="fedora-bootc"
+ARG SOURCE_IMAGE="fedora-silverblue"
 
 # Allow build scripts to be referenced without being copied into the final image
 FROM scratch AS ctx
