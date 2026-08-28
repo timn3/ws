@@ -5,7 +5,6 @@ ARG SOURCE_IMAGE="fedora-bootc"
 FROM scratch AS ctx
 COPY /scripts /scripts
 COPY /system_files /system_files
-COPY /container_files /container_files
 
 # Base Image
 FROM quay.io/fedora/${SOURCE_IMAGE}:${FEDORA_MAJOR_VERSION} AS base
