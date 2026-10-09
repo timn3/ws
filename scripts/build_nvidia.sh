@@ -6,8 +6,8 @@ dnf5 -y install \
     gcc-c++ \
     dnf-plugins-core \
     dkms \
-    akmods
-    # nvidia-driver \
+    akmods \
+    nvidia-driver
 
 dnf5 remove -y xorg-x11-drv-nvidia xorg-x11-drv-nvidia-libs xorg-x11-drv-nvidia-cuda 2>/dev/null || true    
 
@@ -27,11 +27,11 @@ dnf5 install -y --allowerasing --skip-broken --nogpgcheck /tmp/nvidia-rpms/*.rpm
 # dnf5 clean packages
 # dnf5 makecache --refresh
 
-# dnf5 install -y --allowerasing --skip-broken --setopt=cuda-fedora43-x86_64.gpgcheck=0 --setopt=keepcache=false --setopt=max_parallel_downloads=1 \
-#     cuda \
-#     cuda-toolkit \
-#     cuda-drivers \
-#     nvidia-container-toolkit 
+dnf5 install -y --allowerasing --skip-broken --setopt=cuda-fedora43-x86_64.gpgcheck=0 --setopt=keepcache=false --setopt=max_parallel_downloads=1 \
+    cuda \
+    cuda-toolkit \
+    cuda-drivers \
+    nvidia-container-toolkit 
 dnf5 install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm 
 
 dnf5 install -y --skip-unavailable --allowerasing --skip-broken \
