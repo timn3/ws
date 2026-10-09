@@ -29,6 +29,7 @@ dnf5 install -y --setopt=install_weak_deps=0 --skip-unavailable \
     nss-mdns \
     pcp \
     pcp-selinux \
+    pciutils \
     podman \
     podman-compose \
     samba \
